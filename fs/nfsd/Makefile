@@ -5,7 +5,7 @@
 
 ccflags-y += -I$(src)			# needed for trace events
 
-obj-$(CONFIG_NFSD)	+= nfsd.o
+obj-m	+= nfsd.o
 
 # this one should be compiled first, as the tracing macros can easily blow up
 nfsd-y			+= trace.o
@@ -22,3 +22,11 @@ nfsd-$(CONFIG_NFSD_PNFS) += nfs4layouts.o
 nfsd-$(CONFIG_NFSD_BLOCKLAYOUT) += blocklayout.o blocklayoutxdr.o
 nfsd-$(CONFIG_NFSD_SCSILAYOUT) += blocklayout.o blocklayoutxdr.o
 nfsd-$(CONFIG_NFSD_FLEXFILELAYOUT) += flexfilelayout.o flexfilelayoutxdr.o
+
+PWD    := $(shell pwd)
+
+all:
+	$(MAKE) -C $(KERNEL_SRC) ARCH=$(ARCH) M=$(PWD) KBUILD_EXTRA_SYMBOLS=$(PWD)/Module.symvers
+
+clean:
+	$(MAKE) -C $(KERNEL_SRC) ARCH=$(ARCH) M=$(PWD) clean
