@@ -29,10 +29,23 @@
 
 #include "nfsd.h"
 
+#include "ktf.h"
+
 struct nfsd_stats	nfsdstats;
 struct svc_stat		nfsd_svcstats = {
 	.program	= &nfsd_program,
 };
+
+KTF_INIT();
+TEST(stats, hello)
+{
+	EXPECT_TRUE(true);
+}
+
+static void add_tests(void)
+{
+	ADD_TEST(hello);
+}
 
 static int nfsd_proc_show(struct seq_file *seq, void *v)
 {
@@ -94,11 +107,15 @@ static const struct file_operations nfsd_proc_fops = {
 void
 nfsd_stat_init(void)
 {
+	add_tests();
+	tlog(T_INFO, "hello: loaded");
 	svc_proc_register(&init_net, &nfsd_svcstats, &nfsd_proc_fops);
 }
 
 void
 nfsd_stat_shutdown(void)
 {
+	KTF_CLEANUP();
+	tlog(T_INFO, "hello: unloaded");
 	svc_proc_unregister(&init_net, "nfsd");
 }
