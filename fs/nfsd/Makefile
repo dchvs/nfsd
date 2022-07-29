@@ -24,6 +24,7 @@ nfsd-$(CONFIG_NFSD_SCSILAYOUT) += blocklayout.o blocklayoutxdr.o
 nfsd-$(CONFIG_NFSD_FLEXFILELAYOUT) += flexfilelayout.o flexfilelayoutxdr.o
 
 PWD    := $(shell pwd)
+KBUILD_CPPFLAGS += -I$(KTF_HEADERS)
 
 all:
 	$(MAKE) -C $(KERNEL_SRC) ARCH=$(ARCH) M=$(PWD) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_EXTRA_SYMBOLS=$(PWD)/Module.symvers

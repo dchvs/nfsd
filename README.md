@@ -8,6 +8,7 @@ cd nfsd/
 
 S=${PWD}/
 K=<linux-yocto @ v4.19 tag>
+KTF_HEADERS=<KTF Kernel headers>
 B=${S}/build
 O=${B}/output
 
@@ -18,5 +19,5 @@ mkdir -p ${B} && cd ${B}
 make -C ${K} ARCH=${ARCH} defconfig
 make -C ${K} ARCH=${ARCH} scripts prepare
 rsync ${S}/fs/nfsd/Makefile ${B}
-make KERNEL_SRC=${K} ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} S=${S} src=${S}/fs/nfsd/
+make KERNEL_SRC=${K} ARCH=${ARCH} KTF_HEADERS=${KTF_HEADERS} CROSS_COMPILE=${CROSS_COMPILE} S=${S} src=${S}/fs/nfsd/
 ```
